@@ -4,5 +4,4 @@ class TagType:
 
     @staticmethod
     def get_predefined_types():
-        # 返回预定义标签类型列表
         return ["Personal", "Work", "Urgent"]

@@ -1,8 +1,9 @@
-from models.user import User
-from views.ui import UI
+from views.login_view import LoginView
+import tkinter as tk
 
 if __name__ == "__main__":
-    # 初始化UI和用户
-    ui = UI()
-    user = User()
-    ui.render(user)
+    root = tk.Tk()
+    root.title("Task Management App")
+    root.geometry("600x400")
+    app = LoginView(root)
+    root.mainloop()

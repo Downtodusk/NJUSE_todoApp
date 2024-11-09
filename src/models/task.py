@@ -1,5 +1,5 @@
 from datetime import date
-from ..utils.enums import Priority, Status
+from utils.enums import Priority, Status
 
 class Task:
     def __init__(self, id, title, description, start_date, end_date, priority=Priority.MEDIUM, status=Status.TODO, tags=None):
@@ -12,24 +12,13 @@ class Task:
         self.status = status
         self.tags = tags or []
 
-    def create_task(self):
-        # 创建任务的逻辑
-        pass
+    def update_task(self, title=None, description=None, start_date=None, end_date=None, priority=None, status=None):
+        self.title = title or self.title
+        self.description = description or self.description
+        self.start_date = start_date or self.start_date
+        self.end_date = end_date or self.end_date
+        self.priority = priority or self.priority
+        self.status = status or self.status
 
-    def update_task(self):
-        # 更新任务的逻辑
-        pass
-
-    def delete_task(self):
-        # 删除任务的逻辑
-        pass
-
-    def set_reminder(self):
-        # 设置提醒的逻辑
-        pass
-
-    def add_tag(self, tag):
-        self.tags.append(tag)
-
-    def remove_tag(self, tag):
-        self.tags.remove(tag)
+    def display(self):
+        return f"ID: {self.id}, Title: {self.title}, Priority: {self.priority}, Status: {self.status}"

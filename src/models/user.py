@@ -1,5 +1,3 @@
-from task import Task
-
 class User:
     def __init__(self, id, username, email, password):
         self.id = id
@@ -8,18 +6,12 @@ class User:
         self.password = password
         self.tasks = []
 
-    def register(self):
-        # 注册逻辑
-        pass
+    def add_task(self, task):
+        self.tasks.append(task)
 
-    def login(self):
-        # 登录逻辑
-        pass
+    def remove_task(self, task_id):
+        self.tasks = [task for task in self.tasks if task.id != task_id]
 
-    def logout(self):
-        # 注销逻辑
-        pass
-
-    def sync_tasks(self):
-        # 同步任务的逻辑
-        pass
+    def display_tasks(self):
+        for task in self.tasks:
+            print(task.display())
