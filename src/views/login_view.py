@@ -10,7 +10,7 @@ class LoginView:
         self.root.configure(bg="#f5f5f5")  # 背景浅灰色
 
         # 标题
-        tk.Label(self.root, text="Task Manager", font=("Arial", 18, "bold"), bg="#f5f5f5", fg="#333").pack(pady=20)
+        tk.Label(self.root, text="✅TODO LIST", font=("Arial", 18, "bold"), bg="#f5f5f5", fg="#333").pack(pady=20)
 
         # 登录框架
         self.frame = tk.Frame(self.root, bg="#ffffff", bd=2, relief="groove", padx=20, pady=20)

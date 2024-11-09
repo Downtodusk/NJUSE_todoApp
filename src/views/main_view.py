@@ -2,7 +2,8 @@ import tkinter as tk
 from views.all_tasks_view import AllTasksView
 from views.timeline_view import TimelineView
 from views.add_task_view import AddTaskView  # 导入添加任务视图
-from datetime import date
+import tkinter.messagebox as messagebox
+from datetime import datetime, timedelta, date
 
 class MainView:
     def __init__(self, root):
@@ -15,9 +16,9 @@ class MainView:
         self.sidebar = tk.Frame(self.root, width=150, bg="#0c87d4")
         self.sidebar.pack(side="left", fill="y")
 
-        tk.Button(self.sidebar, text="Today's Tasks", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_today_tasks).pack(pady=20, fill="x")
-        tk.Button(self.sidebar, text="All Tasks", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_all_tasks).pack(pady=20, fill="x")
-        tk.Button(self.sidebar, text="Timeline", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_timeline).pack(pady=20, fill="x")
+        tk.Button(self.sidebar, text="📃TODAY", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_today_tasks).pack(pady=20, fill="x")
+        tk.Button(self.sidebar, text="📆   ALL", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_all_tasks).pack(pady=20, fill="x")
+        tk.Button(self.sidebar, text="📍TIMELINE", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_timeline).pack(pady=20, fill="x")
 
         # 主内容区
         self.content = tk.Frame(self.root, bg="#ffffff", bd=2, relief="groove")
@@ -29,6 +30,7 @@ class MainView:
 
         self.tasks = []  # 存储所有任务
         self.show_today_tasks()
+        self.root.after(1000, self.check_reminders)
 
     def show_today_tasks(self):
         self.clear_content()
@@ -74,6 +76,18 @@ class MainView:
         """添加任务并刷新显示"""
         self.tasks.append(task)  # 将新任务添加到任务列表
         self.show_today_tasks()  # 更新主界面显示的任务
+
+    def check_reminders(self):
+        now = datetime.now()
+        for task in self.tasks:
+            if task["reminder_time"] and now >= task["reminder_time"]:
+                messagebox.showinfo("Reminder", f"Reminder for Task: {task['title']}")
+                if task["reminder_repeats"] > 0:
+                    task["reminder_repeats"] -= 1
+                    task["reminder_time"] += timedelta(minutes=5)  # 设置间隔提醒时间
+                else:
+                    task["reminder_time"] = None  # 取消提醒
+        self.root.after(1000, self.check_reminders)  # 每秒检查一次
 
     def clear_content(self):
         """清空主界面内容"""
