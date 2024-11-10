@@ -1,11 +1,11 @@
-# views/all_tasks_view.py
 import tkinter as tk
+from datetime import date
 
-class AllTasksView:
+class TodayTasksView:
     def __init__(self, parent, tasks, complete_task_callback):
         self.parent = parent
         self.tasks = tasks
-        self.complete_task_callback = complete_task_callback  # 添加完成任务的回调
+        self.complete_task_callback = complete_task_callback  # 完成任务的回调
 
         # 创建 Canvas 和滚动条
         self.canvas = tk.Canvas(self.parent, bg="#ffffff")
@@ -32,18 +32,22 @@ class AllTasksView:
         self.canvas.bind("<Configure>", self.update_scrollable_frame_width)
 
         self.canvas.bind_all("<MouseWheel>", self.on_mouse_wheel)
-        # 显示任务列表
-        self.display_tasks()
 
-    def display_tasks(self):
-        for task in self.tasks:
+        # 显示任务列表
+        self.display_today_tasks()
+
+    def display_today_tasks(self):
+        today = date.today()
+        today_tasks = [task for task in self.tasks if task['start_date'].date() == today]
+
+        for i, task in enumerate(today_tasks, start=1):
             task_frame = tk.Frame(self.scrollable_frame, bg="#ffffff", relief="solid", bd=2, padx=10, pady=5)
             task_frame.pack(anchor="w", padx=10, pady=5, fill="x")
 
             # 任务标题和描述
             tk.Label(task_frame, text=f"{task['title']} - {task['description']}", font=("Arial", 12), bg="#ffffff", fg="#555").pack(anchor="w", pady=5)
 
-            # 显示标签
+            # 标签显示
             self.show_tags(task_frame, task['tags'])
 
             # 添加“完成”按钮
