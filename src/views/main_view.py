@@ -1,6 +1,5 @@
-# main_view.py
 import tkinter as tk
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 from tkinter import messagebox
 from views.all_tasks_view import AllTasksView
 from views.timeline_view import TimelineView
@@ -11,24 +10,47 @@ from data.task_storage import load_tasks, save_tasks
 class MainView:
     def __init__(self, root):
         self.root = root
-        self.root.title("Task Management - Main View")
-        self.root.geometry("800x600")
-        self.root.configure(bg="#f5f5f5")
+        self.root.title("Task Management")
+        self.root.geometry("1000x700")
+        self.root.configure(bg="#f1f2f6")
 
         # 左侧边栏
-        self.sidebar = tk.Frame(self.root, width=150, bg="#0c87d4")
+        self.sidebar = tk.Frame(self.root, width=220, bg="#2D3436", bd=0)
         self.sidebar.pack(side="left", fill="y")
 
-        tk.Button(self.sidebar, text="📃TODAY", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_today_tasks).pack(pady=20, fill="x")
-        tk.Button(self.sidebar, text="📆 ALL", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_all_tasks).pack(pady=20, fill="x")
-        tk.Button(self.sidebar, text="📍TIMELINE", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_timeline).pack(pady=20, fill="x")
+        # 标题
+        tk.Label(
+            self.sidebar,
+            text="Hi, Dr.J",
+            font=("Segoe UI", 16, "bold"),
+            bg="#2D3436",
+            fg="white",
+        ).pack(pady=20)
+
+        # 侧边栏按钮
+        self.create_sidebar_button("📃 TODAY", self.show_today_tasks)
+        self.create_sidebar_button("📆 ALL TASKS", self.show_all_tasks)
+        self.create_sidebar_button("📍 TIMELINE", self.show_timeline)
 
         # 主内容区
-        self.content = tk.Frame(self.root, bg="#ffffff", bd=2, relief="groove")
-        self.content.pack(side="right", expand=True, fill="both", padx=10, pady=10)
+        self.content = tk.Frame(self.root, bg="#ffffff", bd=0)
+        self.content.pack(side="right", expand=True, fill="both", padx=20, pady=20)
 
         # 添加任务按钮
-        self.add_task_button = tk.Button(self.root, text="Add Task", font=("Arial", 12), bg="#0c87d4", fg="white", bd=0, command=self.show_add_task)
+        self.add_task_button = tk.Button(
+            self.root,
+            text="+ Add Task",
+            font=("Segoe UI", 14, "bold"),
+            bg="#0984e3",
+            fg="white",
+            bd=0,
+            relief="flat",
+            padx=15,
+            pady=10,
+            activebackground="#1d86e3",
+            activeforeground="white",
+            command=self.show_add_task
+        )
         self.add_task_button.place(relx=0.85, rely=0.9, anchor="center")
 
         self.tasks = load_tasks()  # 从文件加载任务
@@ -36,6 +58,25 @@ class MainView:
 
         # 定时提醒
         self.root.after(1000, self.check_reminders)
+
+    def create_sidebar_button(self, text, command):
+        button = tk.Button(
+            self.sidebar,
+            text=text,
+            font=("Segoe UI", 12),
+            bg="#2D3436",
+            fg="white",
+            bd=0,
+            relief="flat",
+            activebackground="#1c1e21",
+            activeforeground="white",
+            command=command,
+        )
+        button.pack(pady=10, fill="x", padx=20)
+
+        # 添加悬停效果
+        button.bind("<Enter>", lambda e: button.config(bg="#636e72"))
+        button.bind("<Leave>", lambda e: button.config(bg="#2D3436"))
 
     def show_today_tasks(self):
         self.clear_content()
@@ -54,8 +95,9 @@ class MainView:
         AddTaskView(self.content, self.add_task)
 
     def add_task(self, task):
-        self.tasks.append(task)
-        save_tasks(self.tasks)
+        if task is not None:
+            self.tasks.append(task)
+            save_tasks(self.tasks)
         self.show_today_tasks()
 
     def complete_task(self, task):
