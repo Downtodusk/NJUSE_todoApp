@@ -52,7 +52,7 @@ class AllTasksView:
         filter_frame = tk.Frame(self.parent, bg="#f5f7fa")
         filter_frame.pack(fill="x", padx=10, pady=10)
 
-        tk.Label(filter_frame, text="Filter by Tag:", font=("Segoe UI", 12), bg="#f5f7fa").pack(side="left", padx=5)
+        tk.Label(filter_frame, text="Tag:", font=("Segoe UI", 12), bg="#f5f7fa").pack(side="left", padx=5)
 
         self.tag_filter = ttk.Combobox(
             filter_frame,

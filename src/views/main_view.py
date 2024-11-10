@@ -25,7 +25,7 @@ class MainView:
         # 标题
         tk.Label(
             self.sidebar,
-            text="TASK MANAGER",
+            text="Hi Dr.J",
             font=("Segoe UI", 16, "bold"),
             bg="#2D3436",
             fg="white",

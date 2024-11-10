@@ -32,7 +32,7 @@ class LoginView:
         username = self.username_entry.get()
         password = self.password_entry.get()
 
-        if username == "123" and password == "123":  # 简化的认证
+        if username == "root" and password == "123":  # 简化的认证
             self.frame.destroy()
             MainView(self.root)  # 登录成功后进入主界面
         else:
