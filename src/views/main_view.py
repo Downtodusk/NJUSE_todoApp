@@ -8,9 +8,10 @@ from views.today_tasks_view import TodayTasksView  # 导入 TodayTasksView
 from data.task_storage import load_tasks, save_tasks
 
 class MainView:
-    def __init__(self, root):
+    def __init__(self, root, username):
         self.root = root
-        self.root.title("Task Management")
+        self.username = username
+        self.root.title(f"Task Management - {username}")
         self.root.geometry("1000x700")
         self.root.configure(bg="#f1f2f6")
         self.current_view = None
@@ -57,7 +58,7 @@ class MainView:
         )
         self.add_task_button.place(relx=0.85, rely=0.9, anchor="center")
 
-        self.tasks = load_tasks()  # 从文件加载任务
+        self.tasks = load_tasks(self.username)  # 从文件加载任务
         self.show_today_tasks()
 
         # 定时提醒
@@ -114,12 +115,12 @@ class MainView:
     def add_task(self, task):
         if task is not None:
             self.tasks.append(task)
-            save_tasks(self.tasks)
+            save_tasks(self.username, self.tasks)
         self.refresh_current_view()
 
     def complete_task(self, task):
         self.tasks.remove(task)
-        save_tasks(self.tasks)
+        save_tasks(self.username, self.tasks)
         self.refresh_current_view()
 
     def refresh_current_view(self):

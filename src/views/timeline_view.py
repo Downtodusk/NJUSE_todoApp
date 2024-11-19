@@ -128,7 +128,10 @@ class TimelineView:
         # 计算进度
         total_duration = (end_time - start_time).total_seconds()
         elapsed_duration = (now - start_time).total_seconds()
-        progress = min(max(elapsed_duration / total_duration, 0), 1)  # 进度百分比 (0-1)
+        if total_duration == 0:
+            progress = 0
+        else:
+            progress = min(max(elapsed_duration / total_duration, 0), 1)  # 进度百分比 (0-1)
 
         progress_canvas = tk.Canvas(progress_frame, height=15, bg="#e0e0e0", highlightthickness=0)
         progress_canvas.pack(fill="x", expand=True)
@@ -177,3 +180,4 @@ class TimelineView:
         """处理鼠标滚轮事件，调整 Canvas 的垂直位置"""
         if self.canvas.winfo_exists():
             self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
