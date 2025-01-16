@@ -1,0 +1,36 @@
+[
+    {
+        "title": "Test1",
+        "description": "This is a test",
+        "start_date": "2024-10-01 00:00:00",
+        "end_date": "2024-12-31 00:00:00",
+        "priority": "Medium",
+        "tags": [
+            "Work"
+        ],
+        "reminder_time": null,
+        "reminder_repeats": 0
+    },
+    {
+        "title": "Test2",
+        "description": "This is another test",
+        "start_date": "2024-11-01 00:00:00",
+        "end_date": "2024-12-01 00:00:00",
+        "priority": "High",
+        "tags": [
+            "Private"
+        ],
+        "reminder_time": null,
+        "reminder_repeats": 0
+    },
+    {
+        "title": "No Reminder",
+        "description": "This task has no reminder",
+        "start_date": "2024-11-01 00:00:00",
+        "end_date": "2024-12-31 00:00:00",
+        "priority": "Low",
+        "tags": [],
+        "reminder_time": null,
+        "reminder_repeats": 0
+    }
+]
